@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-#SBATCH –p instruction
+#SBATCH -p instruction
 
 #SBATCH -J Task2
 

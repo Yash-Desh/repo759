@@ -1,0 +1,26 @@
+/var/spool/slurmd/job593987/slurm_script:cd:18: no such file or directory: repo759/HW02
+task1.cpp:4:10: fatal error: scan.h : No such file or directory
+    4 | #include "scan.h " // To call the scan function
+      |          ^~~~~~~~~
+compilation terminated.
+/var/spool/slurmd/job593987/slurm_script:22: no such file or directory: ./task1
+/var/spool/slurmd/job593987/slurm_script:22: no such file or directory: ./task1
+/var/spool/slurmd/job593987/slurm_script:22: no such file or directory: ./task1
+/var/spool/slurmd/job593987/slurm_script:22: no such file or directory: ./task1
+/var/spool/slurmd/job593987/slurm_script:22: no such file or directory: ./task1
+/var/spool/slurmd/job593987/slurm_script:22: no such file or directory: ./task1
+/var/spool/slurmd/job593987/slurm_script:22: no such file or directory: ./task1
+/var/spool/slurmd/job593987/slurm_script:22: no such file or directory: ./task1
+/var/spool/slurmd/job593987/slurm_script:22: no such file or directory: ./task1
+/var/spool/slurmd/job593987/slurm_script:22: no such file or directory: ./task1
+/var/spool/slurmd/job593987/slurm_script:22: no such file or directory: ./task1
+/var/spool/slurmd/job593987/slurm_script:22: no such file or directory: ./task1
+/var/spool/slurmd/job593987/slurm_script:22: no such file or directory: ./task1
+/var/spool/slurmd/job593987/slurm_script:22: no such file or directory: ./task1
+/var/spool/slurmd/job593987/slurm_script:22: no such file or directory: ./task1
+/var/spool/slurmd/job593987/slurm_script:22: no such file or directory: ./task1
+/var/spool/slurmd/job593987/slurm_script:22: no such file or directory: ./task1
+/var/spool/slurmd/job593987/slurm_script:22: no such file or directory: ./task1
+/var/spool/slurmd/job593987/slurm_script:22: no such file or directory: ./task1
+/var/spool/slurmd/job593987/slurm_script:22: no such file or directory: ./task1
+/var/spool/slurmd/job593987/slurm_script:22: no such file or directory: ./task1
