@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstdlib> // To generate random numbers
 #include <random>  // To generate random numbers
-#include "scan.h " // To call the scan function
+#include "scan.h" // To call the scan function
 
 // The std::chrono namespace provides timer functions in C++
 #include <chrono>
