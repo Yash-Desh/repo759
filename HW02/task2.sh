@@ -17,4 +17,4 @@ cd $SLURM_SUBMIT_DIR
 module load gcc/11.3.0
 cd repo759/HW02
 g++ convolution.cpp task2.cpp -Wall -O3 -std=c++17 -o task2
-./task2 4 3
+./task2 90 30
