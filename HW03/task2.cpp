@@ -101,8 +101,8 @@ int main(int argc, char* argv[])
 
     // Get the starting timestamp
     start = high_resolution_clock::now();
-    omp_set_num_threads(t);
-    #pragma omp parallel
+    // omp_set_num_threads(t);
+    #pragma omp parallel num_threads(t)
     {
         convolve(image_mod, output, n, mask_arr, m);
     }
