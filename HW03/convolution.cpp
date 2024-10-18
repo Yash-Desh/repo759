@@ -7,7 +7,7 @@ void convolve(const float *image, float *output, std::size_t n, const float *mas
     unsigned int x = 0;
     unsigned int y = 0;
 
-    #pragma omp parallel for 
+    #pragma omp for 
     for (unsigned int k = 0; k < n * n; k++)
     {
         if (y == n)

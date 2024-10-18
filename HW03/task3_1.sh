@@ -20,6 +20,6 @@ g++ task3.cpp msort.cpp -Wall -O3 -std=c++17 -o task3 -fopenmp
 
 for ((counter=1; counter<=20; counter = counter+1))
 do
-./task3 1000000 $counter 10
+./task3 1000000 $counter 32
 printf "\n"
 done

@@ -10,7 +10,7 @@
 
 #SBATCH --cpus-per-task=20
 
-#SBATCH -t 0-00:01:00
+#SBATCH -t 0-00:10:00
 
 cd $SLURM_SUBMIT_DIR
 
