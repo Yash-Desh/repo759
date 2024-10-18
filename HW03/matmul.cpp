@@ -1,10 +1,11 @@
 #include <iostream>
+#include <atomic>
 #include "matmul.h"
 using namespace std;
 
 void mmul(const float *A, const float *B, float *C, const std::size_t n)
 {
-    #pragma omp parallel for collapse(3)
+    #pragma omp for collapse(3)
     for (unsigned int i = 0; i < n; i++)
     {
         // loops over the columns of c

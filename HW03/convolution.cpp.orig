@@ -39,3 +39,4 @@ void convolve(const float *image, float *output, std::size_t n, const float *mas
     // cout << endl;
     
 }
+>>>>>>> 4489d32496f150584e84e3dd86688b7504089cb5
