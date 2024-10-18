@@ -4,7 +4,7 @@ using namespace std;
 
 void convolve(const float *image, float *output, std::size_t n, const float *mask, std::size_t m)
 {
-    #pragma omp for collapse(3)
+    #pragma omp for collapse(4)
     for (size_t x = 0; x < n; x++)
     {
         for (size_t y = 0; y < n; y++)
