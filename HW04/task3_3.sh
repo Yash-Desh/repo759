@@ -22,6 +22,6 @@ export OMP_SCHEDULE="guided,1"
 
 for ((counter=1; counter<=8; counter = counter+1))
 do
-./task3 100 10 $counter
+./task3 300 10 $counter
 printf "\n"
 done

@@ -18,10 +18,10 @@ module load gcc/11.3.0
 cd repo759/HW03
 g++ task3.cpp -Wall -O3 -std=c++17 -o task3 -fopenmp
 
-export OMP_SCHEDULE="static,1"
+export OMP_SCHEDULE="static,"
 
 for ((counter=1; counter<=8; counter = counter+1))
 do
-./task3 100 10 $counter
+./task3 300 10 $counter
 printf "\n"
 done
