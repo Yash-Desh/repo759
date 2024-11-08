@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     }
 
     float *d_a, *d_b;
-    int size = n * sizeof(float);
+    size_t size = n * sizeof(float);
 
     // allocate memory on the device (GPU)
     cudaMalloc((void **)&d_a, size);
@@ -65,11 +65,11 @@ int main(int argc, char *argv[])
     cudaEventRecord(stop);
     cudaEventSynchronize(stop);
 
-    // Get the elapsed time in milliseconds
-    float ms;
-    cudaEventElapsedTime(&ms, start, stop);
-
     cudaMemcpy(b, d_b, size, cudaMemcpyDeviceToHost);
+
+     // Get the elapsed time in milliseconds
+     float ms;
+     cudaEventElapsedTime(&ms, start, stop);
 
     // Durations are converted to milliseconds already thanks to std::chrono::duration_cast
     std::cout << ms << std::endl;
