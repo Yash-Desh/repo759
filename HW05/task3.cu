@@ -80,7 +80,7 @@ int main(int argc, char* argv[])
 
     // Durations are converted to milliseconds already thanks to std::chrono::duration_cast
     std::cout << duration_sec.count() << std::endl;
-    std::cout << b[0] << endl;
+    std::cout << b[0] << std::endl;
     std::cout << b[n - 1] << std::endl;
 
     // deallocate memory
