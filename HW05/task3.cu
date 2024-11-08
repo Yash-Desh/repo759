@@ -36,14 +36,14 @@ int main(int argc, char* argv[])
     float *a = new float[n];
     if (!a)
     {
-        cout << "Memory allocation failed for array a\n";
+        std::cout << "Memory allocation failed for array a\n";
     }
 
     // array to store the n*n random float values from 0.0 to 1.0 for mask
     float *b = new float[n];
     if (!b)
     {
-        cout << "Memory allocation failed for array b\n";
+        std::cout << "Memory allocation failed for array b\n";
     }
 
     // Write a random value to each slot in N
