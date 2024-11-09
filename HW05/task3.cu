@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
      cudaEventElapsedTime(&ms, start, stop);
 
     // Durations are converted to milliseconds already thanks to std::chrono::duration_cast
-    std::cout << "test" << std::endl;
+    std::cout << ms << std::endl;
     std::cout << b[0] << std::endl;
     std::cout << b[n - 1] << std::endl;
 
