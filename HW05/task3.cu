@@ -59,9 +59,9 @@ int main(int argc, char *argv[])
     cudaEvent_t stop;
     cudaEventCreate(&start);
     cudaEventCreate(&stop);
-
+    int number_of_block = (n + M - 1) / M;
     cudaEventRecord(start);
-    vscale<<<(n + M - 1) / M, M>>>(a, b, n);
+    vscale<<<number_of_block, M>>>(a, b, n);
     cudaEventRecord(stop);
     cudaEventSynchronize(stop);
 
