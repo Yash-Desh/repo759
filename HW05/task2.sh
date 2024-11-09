@@ -4,9 +4,9 @@
 
 #SBATCH -J Task1
 
-#SBATCH -o Task1-%j.out
+#SBATCH -o Task2_HW05.out
 
-#SBATCH -e Task1-%j.err
+#SBATCH -e Task1_HW05.err
 
 #SBATCH -c 1
 
