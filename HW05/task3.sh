@@ -7,6 +7,7 @@
 #SBATCH --gpus-per-task=1
 #SBATCH --output=task3_hw5_2.out
 #SBATCH --error=task3_hw5.err
+#SBATCH --exclusive
 
 cd $SLURM_SUBMIT_DIR
 
