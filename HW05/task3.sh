@@ -1,32 +1,24 @@
 #!/usr/bin/env zsh
 
-#SBATCH -p instruction
-
-#SBATCH -J Task3
-
-#SBATCH -o Task3-%j.out
-
-#SBATCH -e Task3-%j.err
-
-#SBATCH -c 1
-
+#SBATCH --partition=instruction
+#SBATCH --time=00:010:00
 #SBATCH --ntasks=1
-
+#SBATCH --cpus-per-task=1
 #SBATCH --gpus-per-task=1
-
-#SBATCH -t 0-00:01:00
+#SBATCH --output=task3_hw5_2.out
+#SBATCH --error=task3_hw5.err
 
 cd $SLURM_SUBMIT_DIR
 
-
+module load gcc/11.3.0
 module load nvidia/cuda/11.8.0
-module load gcc/9.4.0
+
+# going into the subdirectory
+# cd ece759/repo759/HW05
 
 nvcc task3.cu vscale.cu -Xcompiler -O3 -Xcompiler -Wall -Xptxas -O3 -std=c++17 -o task3
 
-
-for ((counter=2**10; counter<=2**29; counter = counter*2))
-do
-./task3 counter
-printf "\n"
+for ((i=10; i<30; i++)); do
+	N=$((2 ** i))
+	./task3 $N
 done
