@@ -1,85 +1,77 @@
-#include <iostream>
+
+#include <cstdio>
 #include <cuda.h>
+#include <cstdlib>
+#include <iostream>
+#include <random>
 #include "vscale.cuh"
 
-#include <random> // To generate random numbers
 
-int main(int argc, char *argv[])
-{
-    std::random_device entropy_source;
 
-    // 64-bit variant of mt19937 isn't necessary here, but it's just an example
-    std::mt19937_64 generator(entropy_source());
+int main ( int argc , char* argv[] ) {
+   std::random_device rd;  // a seed source for the random number engine
+   std::mt19937 gen(rd()); // mersenne_twister_engine seeded with rd()
+   std::uniform_real_distribution<> distribution_a(-10., 10.);
+   std::uniform_real_distribution<> distribution_b(0., 1.);
 
-    std::uniform_real_distribution<float> dist1(-10.0, 10.0);
-    std::uniform_real_distribution<float> dist2(0.0, 1.0);
+   int N = std::atoi(argv[1]);
+   
+   float* h_a = new float[N] ;
+   float* h_b = new float[N] ;
 
-    // n is given as command line argument
-    unsigned int n = atoi(argv[1]);
+   for (int i = 0 ; i < N ; ++i) {
+     h_a[i] = distribution_a(gen) ;
+     h_b[i] = distribution_b(gen) ;
+   }	   
+   
+   float* d_a  ;
+   float* d_b  ;
+   cudaMalloc((void**) &d_a , sizeof(float) * N );
+   cudaMalloc((void**) &d_b , sizeof(float) * N );
 
-    // array to store n*n random float values from -10.0 to 10.0 for image
-    float *a = new float[n];
-    if (!a)
-    {
-        std::cout << "Memory allocation failed for array a\n";
-    }
 
-    // array to store the n*n random float values from 0.0 to 1.0 for mask
-    float *b = new float[n];
-    if (!b)
-    {
-        std::cout << "Memory allocation failed for array b\n";
-    }
+   cudaMemcpy(d_a,h_a,sizeof(float) * N,cudaMemcpyHostToDevice);
+   cudaMemcpy(d_b,h_b,sizeof(float) * N,cudaMemcpyHostToDevice);
+   
+   const int threadsPerBlock = std::atoi(argv[2]);
+   const int blocksPerGrid   = ( N +  threadsPerBlock - 1 ) / threadsPerBlock ;
 
-    // Write a random value to each slot in N
-    for (size_t i = 0; i < n; i++)
-    {
-        a[i] = dist1(generator);
-    }
+// Create CUDA events for timing
+   cudaEvent_t start, stop;
+   cudaEventCreate(&start);
+   cudaEventCreate(&stop);
 
-    for (size_t i = 0; i < n; i++)
-    {
-        b[i] = dist2(generator);
-    }
+    // Start recording
+   cudaEventRecord(start,0);
 
-    float *d_a, *d_b;
-    size_t size = n * sizeof(float);
+   vscale<<<blocksPerGrid,threadsPerBlock>>>(d_a,d_b,N);
 
-    // allocate memory on the device (GPU)
-    cudaMalloc((void **)&d_a, size);
-    cudaMalloc((void **)&d_b, size);
+    // Stop recording
+   cudaEventRecord(stop,0);
+   cudaEventSynchronize(stop);
 
-    cudaMemcpy(d_a, a, size, cudaMemcpyHostToDevice);
-    cudaMemcpy(d_b, b, size, cudaMemcpyHostToDevice);
+    // Calculate elapsed time
+   float elapsedTime = 0;
+   cudaEventElapsedTime(&elapsedTime, start, stop);
 
-    // threads per block
-    int M = 512;
 
-    cudaEvent_t start;
-    cudaEvent_t stop;
-    cudaEventCreate(&start);
-    cudaEventCreate(&stop);
-    int number_of_block = (n + M - 1) / M;
-    cudaEventRecord(start);
-    vscale<<<number_of_block, M>>>(a, b, n);
-    cudaEventRecord(stop);
-    cudaEventSynchronize(stop);
+   cudaMemcpy(h_b,d_b,sizeof(float) * N, cudaMemcpyDeviceToHost);
 
-    cudaMemcpy(b, d_b, size, cudaMemcpyDeviceToHost);
+   std::cout << elapsedTime << "ms" << std::endl ;
+   std::cout << h_b[0] << std::endl ;
+   std::cout << h_b[N-1] << std::endl ;
 
-     // Get the elapsed time in milliseconds
-     float ms;
-     cudaEventElapsedTime(&ms, start, stop);
 
-    // Durations are converted to milliseconds already thanks to std::chrono::duration_cast
-    std::cout << ms << std::endl;
-    std::cout << b[0] << std::endl;
-    std::cout << b[n - 1] << std::endl;
 
-    cudaEventDestroy(start);
-    cudaEventDestroy(stop);
+   delete[] h_a;
+   delete[] h_b;
 
-    // deallocate memory
-    delete[] a;
-    delete[] b;
-}
+   cudaFree(d_a);
+   cudaFree(d_b);
+
+   cudaEventDestroy(start);
+   cudaEventDestroy(stop);
+   return 0 ;
+
+
+}	
