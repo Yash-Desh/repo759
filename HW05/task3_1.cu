@@ -7,7 +7,7 @@
 int main(int argc, char *argv[])
 {
     // threads per block
-    const int M = 512;
+    const int M = 16;
 
     cudaEvent_t start;
     cudaEvent_t stop;
