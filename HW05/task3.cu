@@ -33,7 +33,7 @@ int main ( int argc , char* argv[] ) {
    cudaMemcpy(d_a,h_a,sizeof(float) * N,cudaMemcpyHostToDevice);
    cudaMemcpy(d_b,h_b,sizeof(float) * N,cudaMemcpyHostToDevice);
    
-   const int threadsPerBlock = std::atoi(argv[2]);
+   const int threadsPerBlock = 512;
    const int blocksPerGrid   = ( N +  threadsPerBlock - 1 ) / threadsPerBlock ;
 
 // Create CUDA events for timing
