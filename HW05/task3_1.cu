@@ -7,15 +7,12 @@
 int main(int argc, char *argv[])
 {
     std::random_device entropy_source;
-
-    // 64-bit variant of mt19937 isn't necessary here, but it's just an example
     std::mt19937_64 generator(entropy_source());
-
     std::uniform_real_distribution<float> dist1(-10.0, 10.0);
     std::uniform_real_distribution<float> dist2(0.0, 1.0);
 
     // n is given as command line argument
-    unsigned int n = atoi(argv[1]);
+    unsigned int n = std::atoi(argv[1]);
 
     // array to store n*n random float values from -10.0 to 10.0 for image
     float *a = new float[n];
@@ -80,6 +77,8 @@ int main(int argc, char *argv[])
     cudaEventDestroy(stop);
 
     // deallocate memory
+    cudaFree(d_a);
+    cudaFree(d_b);
     delete[] a;
     delete[] b;
 }
