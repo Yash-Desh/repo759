@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 
     // copy data into device blocks
     cudaMemcpy(d_A, A, n * n * sizeof(float), cudaMemcpyHostToDevice);
-    cudaMemcpy(d_B, A, n * n * sizeof(float), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_B, B, n * n * sizeof(float), cudaMemcpyHostToDevice);
 
 
     // #############################################
@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
     cudaMemcpy(C, d_C, n * n * sizeof(float), cudaMemcpyDeviceToHost);
 
     // Durations are converted to milliseconds already thanks to std::chrono::duration_cast
-    std::cout << b[n*n - 1] << std::endl;
+    std::cout << C[n*n - 1] << std::endl;
     std::cout << ms << std::endl;
 
     cudaEventDestroy(start);
