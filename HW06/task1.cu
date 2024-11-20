@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
     {
         A[i] = dist1(generator);
         B[i] = dist2(generator);
+        C[i] = 0;
     }
 
     // device arrays
@@ -48,6 +49,7 @@ int main(int argc, char *argv[])
     // copy data into device blocks
     cudaMemcpy(d_A, A, n * n * sizeof(float), cudaMemcpyHostToDevice);
     cudaMemcpy(d_B, B, n * n * sizeof(float), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_C, C, n * n * sizeof(float), cudaMemcpyHostToDevice);
 
 
     // #############################################
