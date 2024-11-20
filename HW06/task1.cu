@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 
     // copy data into device blocks
     cudaMemcpy(d_A, A, n * n * sizeof(float), cudaMemcpyHostToDevice);
-    cudaMemcpy(d_B, b, n * n * sizeof(float), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_B, A, n * n * sizeof(float), cudaMemcpyHostToDevice);
 
 
     // #############################################
