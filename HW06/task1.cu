@@ -64,6 +64,7 @@ int main(int argc, char *argv[])
     cudaMemcpy(C, d_C, n * n * sizeof(float), cudaMemcpyDeviceToHost);
 
     // Durations are converted to milliseconds already thanks to std::chrono::duration_cast
+    std::cout << C[0] << std::endl;
     std::cout << C[n*n - 1] << std::endl;
     std::cout << ms << std::endl;
 
