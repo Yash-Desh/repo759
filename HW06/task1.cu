@@ -58,13 +58,21 @@ int main(int argc, char *argv[])
     cudaEventRecord(stop);
     // #############################################
     
-    // cudaEventSynchronize(stop);
+    cudaEventSynchronize(stop);
     cudaEventElapsedTime(&ms, start, stop);
 
     cudaMemcpy(C, d_C, n * n * sizeof(float), cudaMemcpyDeviceToHost);
 
+//	for(unsigned int i=0; i<n*n; i++)
+//	{
+//		printf("%f ", C[i]);
+//	}
+
+
+
     // Durations are converted to milliseconds already thanks to std::chrono::duration_cast
-    std::cout << C[0] << std::endl;
+    //std::cout << "Hello World"<<std::endl;
+    //std::cout << C[0] << std::endl;
     std::cout << C[n*n - 1] << std::endl;
     std::cout << ms << std::endl;
 

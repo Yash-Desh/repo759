@@ -8,7 +8,7 @@ __global__ void matmul_kernel(const float* A, const float* B, float* C, size_t n
     int index_y = threadIdx.y + blockIdx.y * blockDim.y;
     if (index_x < n && index_y < n)
     {
-        int temp = 0;
+        float temp = 0;
         for (unsigned int j = 0; j < n; j++)
         {
             temp += A[index_x * n + j] * B[j * n + index_y];
@@ -16,11 +16,10 @@ __global__ void matmul_kernel(const float* A, const float* B, float* C, size_t n
         C[index_x * n + index_y] = temp;
     }
 }
-
-void matmul(const float* A, const float* B, float* C, size_t n, unsigned int threads_per_block)
+void matmul(const float* A, const float* B, float *C, size_t n, unsigned int threads_per_block)
 {
 
-    dim3 dimGrid((n + sqrt(threads_per_block) - 1) / sqrt(threads_per_block), n + sqrt(threads_per_block) - 1) / sqrt(threads_per_block));
+    dim3 dimGrid((n + sqrt(threads_per_block) - 1) / sqrt(threads_per_block), (n + sqrt(threads_per_block) - 1) / sqrt(threads_per_block));
     dim3 dimBlock(sqrt(threads_per_block), sqrt(threads_per_block));
 
     matmul_kernel<<<dimGrid, dimBlock>>>(A, B, C, n);
