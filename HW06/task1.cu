@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
     cudaEventRecord(stop);
     // #############################################
     
-    cudaEventSynchronize(stop);
+    // cudaEventSynchronize(stop);
     cudaEventElapsedTime(&ms, start, stop);
 
     cudaMemcpy(C, d_C, n * n * sizeof(float), cudaMemcpyDeviceToHost);

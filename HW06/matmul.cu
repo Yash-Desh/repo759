@@ -22,5 +22,5 @@ void matmul(const float* A, const float* B, float* C, size_t n, unsigned int thr
     dim3 dimBlock(sqrt(threads_per_block), sqrt(threads_per_block));
 
     matmul_kernel<<<dimGrid, dimBlock>>>(A, B, C, n);
-
+    cudaDeviceSynchronize();
 }
