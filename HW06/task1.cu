@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     float *B= (float*)malloc(n*n*(sizeof(float)));
     float *C= (float*)malloc(n*n*(sizeof(float)));
 
-    for (size_t i = 0; i < n; i++)
+    for (size_t i = 0; i < n*n; i++)
     {
         A[i] = dist1(generator);
         B[i] = dist2(generator);
