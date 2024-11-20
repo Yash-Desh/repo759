@@ -21,5 +21,5 @@ nvcc task1.cu matmul.cu -Xcompiler -O3 -Xcompiler -Wall -Xptxas -O3 -std=c++17 -
 
 for ((i=6; i<15; i++)); do
 	N=$((2 ** i))
-	./task1 $N 1024
+	./task1 $N 256
 done
