@@ -2,23 +2,3 @@
 The following have been reloaded with a version change:
   1) gcc/11.3.0 => gcc/.11.3.0_cuda
 
-/var/spool/slurmd/job626918/slurm_script:20: command not found: vcc
-/var/spool/slurmd/job626918/slurm_script:24: no such file or directory: ./task2
-/var/spool/slurmd/job626918/slurm_script:24: no such file or directory: ./task2
-/var/spool/slurmd/job626918/slurm_script:24: no such file or directory: ./task2
-/var/spool/slurmd/job626918/slurm_script:24: no such file or directory: ./task2
-/var/spool/slurmd/job626918/slurm_script:24: no such file or directory: ./task2
-/var/spool/slurmd/job626918/slurm_script:24: no such file or directory: ./task2
-/var/spool/slurmd/job626918/slurm_script:24: no such file or directory: ./task2
-/var/spool/slurmd/job626918/slurm_script:24: no such file or directory: ./task2
-/var/spool/slurmd/job626918/slurm_script:24: no such file or directory: ./task2
-/var/spool/slurmd/job626918/slurm_script:24: no such file or directory: ./task2
-/var/spool/slurmd/job626918/slurm_script:24: no such file or directory: ./task2
-/var/spool/slurmd/job626918/slurm_script:24: no such file or directory: ./task2
-/var/spool/slurmd/job626918/slurm_script:24: no such file or directory: ./task2
-/var/spool/slurmd/job626918/slurm_script:24: no such file or directory: ./task2
-/var/spool/slurmd/job626918/slurm_script:24: no such file or directory: ./task2
-/var/spool/slurmd/job626918/slurm_script:24: no such file or directory: ./task2
-/var/spool/slurmd/job626918/slurm_script:24: no such file or directory: ./task2
-/var/spool/slurmd/job626918/slurm_script:24: no such file or directory: ./task2
-/var/spool/slurmd/job626918/slurm_script:24: no such file or directory: ./task2

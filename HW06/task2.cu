@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 
     // #############################################
     cudaEventRecord(start);
-    stencil(image, mask, output, n, R, threads_per_block);
+    stencil(d_image, d_mask, d_output, n, R, threads_per_block);
     cudaEventRecord(stop);
     // #############################################
     
