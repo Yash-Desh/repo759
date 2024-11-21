@@ -1,6 +1,7 @@
 #include "stencil.cuh"
 #include <cuda.h>
 #include <cmath>
+#include <cuda_runtime.h>
 
 __global__ void stencil_kernel(const float* image, const float* mask, float* output, unsigned int n, unsigned int R) {
     // // ShMem allocation determined at run time
@@ -65,7 +66,7 @@ __global__ void stencil_kernel(const float* image, const float* mask, float* out
     if (global_thread_id < n) 
     {
         float outcome = 0.0;
-        for (int i = -(int)R; i <= (int)R; ++i) 
+        for (int i = -(int)R; i <= (int)R; i++) 
         {
             outcome += shared_image[local_thread_id + R + i] * shared_mask[i+R];
         }
@@ -90,13 +91,13 @@ __host__ void stencil(const float* image,
  
 
     // number of required blocks
-    unsigned int blocks_per_grid = (n + threads_per_block - 1) / threads_per_block;
+    // unsigned int blocks_per_grid = (n + threads_per_block - 1) / threads_per_block;
 
     
     // Shared memory includes:
     // - threads_per_block + 2 * R elements for shared_image
     // - 2 * R + 1 elements for shared_mask
-    size_t shared_memory_size = (2*R + threads_per_block + (2*R+1) + threads_per_block)*sizeof(float);
+    // size_t shared_memory_size = (2*R + threads_per_block + (2*R+1) + threads_per_block)*sizeof(float);
 
     
     stencil_kernel<<<(n + threads_per_block - 1) / threads_per_block, threads_per_block, (2*R + threads_per_block + (2*R+1) + threads_per_block)*sizeof(float)>>>(image, mask, output, n, R);

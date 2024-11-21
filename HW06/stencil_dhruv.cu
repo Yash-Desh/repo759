@@ -7,6 +7,8 @@
 __host__ void stencil(const float* image,const float* mask, float* output, unsigned int n, unsigned int R, unsigned int threads_per_block)
     {
        stencil_kernel<<<(n+threads_per_block-1)/threads_per_block,threads_per_block,(2*R + threads_per_block + (2*R+1) + threads_per_block)*sizeof(float)>>>(image,mask,output,n,R);
+       
+       
        cudaError_t err = cudaGetLastError();
        if(err!=cudaSuccess){
 	       std::cerr<<"Kernel failed "<<cudaGetErrorString(err);
