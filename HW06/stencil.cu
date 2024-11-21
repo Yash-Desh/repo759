@@ -53,7 +53,7 @@ __global__ void stencil_kernel(const float* image, const float* mask, float* out
     if(global_thread_id < n)
       shared_image[R+threadIdx.x] = image[global_thread_id];
     if(local_thread_id <= 2*R)
-      shared_image[threadIdx.x] = mask[threadIdx.x];
+      shared_mask[threadIdx.x] = mask[threadIdx.x];
 
     // ##############################################################################################
 
