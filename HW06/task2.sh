@@ -21,5 +21,5 @@ nvcc task2.cu stencil.cu -Xcompiler -O3 -Xcompiler -Wall -Xptxas -O3 -std=c++17 
 
 for ((i=10; i<=29; i++)); do
 	N=$((2 ** i))
-	./task2 $N 128 1024
+	./task2 $N 128 512
 done
