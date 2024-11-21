@@ -13,7 +13,7 @@ __global__ void stencil_kernel(const float* image, const float* mask, float* out
 
     // Global thread ID and local thread ID
     unsigned int local_thread_id = threadIdx.x;
-    unsigned int global_thread_id = blockIdx.x * blockDim.x + local_thread_id;
+    unsigned int global_thread_id = blockIdx.x * blockDim.x + threadIdx.x;
 
     // Load into shared memory the mask
     if (local_thread_id < 2 * R + 1) {
@@ -41,12 +41,12 @@ __global__ void stencil_kernel(const float* image, const float* mask, float* out
     if (global_thread_id < n) 
     {
         float outcome = 0.0f;
-        for (int i = -R; i <= R; ++i) 
+        for (int i = -(int)R; i <= (int)R; ++i) 
         {
-            outcome += shared_image[local_thread_id + R + i] * shared_mask[i];
+            outcome += shared_image[local_thread_id + R + i] * shared_mask[i+R];
         }
         shared_output[local_thread_id] = outcome;
-        output[local_thread_id] = shared_output[local_thread_id];
+        output[global_thread_id] = shared_output[local_thread_id];
     }
 }
 
