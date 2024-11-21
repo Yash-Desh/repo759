@@ -19,7 +19,7 @@ module load nvidia/cuda/11.8.0
 
 nvcc task1.cu matmul.cu -Xcompiler -O3 -Xcompiler -Wall -Xptxas -O3 -std=c++17 -o task1
 
-for ((i=6; i<15; i++)); do
+for ((i=5; i<15; i++)); do
 	N=$((2 ** i))
-	./task1 $N 256
+	./task1 $N 1024
 done

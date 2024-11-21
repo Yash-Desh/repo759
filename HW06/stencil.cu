@@ -1,5 +1,5 @@
-#include "matmul.cuh"
-#include <stencil.h>
+#include "stencil.cuh"
+#include <cuda.h>
 #include <cmath>
 
 __global__ void stencil_kernel(const float* image, const float* mask, float* output, unsigned int n, unsigned int R) {
@@ -9,7 +9,7 @@ __global__ void stencil_kernel(const float* image, const float* mask, float* out
     // Pointers within shared memory
     float* shared_image = shared_memory;                     
     float* shared_mask = shared_memory + blockDim.x + 2 * R; 
-    float* shared_output = blockDim.x + 4 * R + 1;
+    float* shared_output = shared_memory + blockDim.x + 4 * R + 1;
 
     // Global thread ID and local thread ID
     unsigned int local_thread_id = threadIdx.x;
@@ -46,7 +46,7 @@ __global__ void stencil_kernel(const float* image, const float* mask, float* out
             outcome += shared_image[local_thread_id + R + i] * shared_mask[i];
         }
         shared_output[local_thread_id] = outcome;
-        local[local_thread_id] = shared_output[local_thread_id];
+        output[local_thread_id] = shared_output[local_thread_id];
     }
 }
 
@@ -60,11 +60,7 @@ __host__ void stencil(const float* image,
     unsigned int threads_per_block) 
 {
     
-    if (threads_per_block < 2 * R + 1) 
-    {
-        fprintf(stderr, "Invalid block size\n");
-        return;
-    }
+ 
 
     // number of required blocks
     unsigned int blocks_per_grid = (n + threads_per_block - 1) / threads_per_block;

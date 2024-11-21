@@ -1,0 +1,10 @@
+
+The following have been reloaded with a version change:
+  1) gcc/11.3.0 => gcc/.11.3.0_cuda
+
+stencil.cu(28): warning #186-D: pointless comparison of unsigned integer with zero
+
+stencil.cu(25): warning #177-D: variable "shared_end_idx" was declared but never referenced
+
+stencil.cu(28): warning #186-D: pointless comparison of unsigned integer with zero
+
