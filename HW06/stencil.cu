@@ -8,12 +8,12 @@ __global__ void stencil_kernel(const float* image, const float* mask, float* out
 
     // Pointers within shared memory
     float* shared_image = shared_memory;                     
-    float* shared_mask = shared_memory + blockDim.x + 2 * R; 
-    float* shared_output = shared_memory + blockDim.x + 4 * R + 1;
+    float* shared_mask = &shared_mem[blockDim.x+2*R]; 
+    float* shared_output = &shared_mem[blockDim.x + 4*R + 1];
 
     // Global thread ID and local thread ID
-    unsigned int local_thread_id = threadIdx.x;
-    unsigned int global_thread_id = blockIdx.x * blockDim.x + threadIdx.x;
+    int local_thread_id = threadIdx.x;
+    int global_thread_id = blockIdx.x * blockDim.x + threadIdx.x;
 
 
     // ##############################################################################################
@@ -64,7 +64,7 @@ __global__ void stencil_kernel(const float* image, const float* mask, float* out
     // convolution within valid range
     if (global_thread_id < n) 
     {
-        float outcome = 0.0f;
+        float outcome = 0.0;
         for (int i = -(int)R; i <= (int)R; ++i) 
         {
             outcome += shared_image[local_thread_id + R + i] * shared_mask[i+R];
