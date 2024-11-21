@@ -95,7 +95,7 @@ __host__ void stencil(const float* image,
     // Shared memory includes:
     // - threads_per_block + 2 * R elements for shared_image
     // - 2 * R + 1 elements for shared_mask
-    size_t shared_memory_size = (threads_per_block + 2 * R) * sizeof(float) + (2 * R + 1) * sizeof(float) + (threads_per_block) * sizeof(float);
+    size_t shared_memory_size = (2*R + threads_per_block + (2*R+1) + threads_per_block)*sizeof(float);
 
     
     stencil_kernel<<<blocks_per_grid, threads_per_block, shared_memory_size>>>(image, mask, output, n, R);
