@@ -5,8 +5,8 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --gpus-per-task=1
-#SBATCH --output=Task1_HW06.out
-#SBATCH --error=Task1_HW06.err
+#SBATCH --output=Task1.out
+#SBATCH --error=Task1.err
 #SBATCH --exclusive
 
 cd $SLURM_SUBMIT_DIR

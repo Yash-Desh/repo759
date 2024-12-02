@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cuda.h>
 #include "matmul.cuh"
-
+#include <cuda_runtime.h>
 #include <random>           // To generate random numbers
 using namespace std;
 
@@ -17,17 +17,17 @@ int main(int argc, char *argv[])
     cudaEvent_t stop;
     cudaEventCreate(&start);
     cudaEventCreate(&stop);
-    float ms_1;   
-    float ms_2;
-    float ms_3;                                                // time in ms
+    float ms_1=0;   
+    float ms_2=0;
+    float ms_3=0;                                                // time in ms
 
     // random number generation
     std::random_device entropy_source;
     std::mt19937_64 generator(entropy_source());
 
-    std::uniform_real_distribution<int> dist1(-1.0, 1.0);
+    std::uniform_int_distribution<int> dist1(-1, 1);
     std::uniform_real_distribution<float> dist2(-1.0, 1.0);
-    std::uniform_real_distribution<double> dist2(-1.0, 1.0);
+    std::uniform_real_distribution<double> dist3(-1.0, 1.0);
 
 
     // -------------------- host arrays --------------------
