@@ -1,8 +1,8 @@
 #include <cuda.h>
 #include "matmul.cuh"
 
-template <typename T>
-__global__ void matmul_kernel(const T* A, const T* B, T* C, unsigned int n, unsigned int block_dim)
+
+__global__ void matmul_kernel_1(const int* A, const int * B, int * C, unsigned int n, unsigned int block_dim)
 {
     // // Block index
     // int bx = blockIdx.x; 
@@ -13,33 +13,15 @@ __global__ void matmul_kernel(const T* A, const T* B, T* C, unsigned int n, unsi
     int ty = threadIdx.y;
 
 
-    // // ----- indexes to select a tile within the nxn sized arrays of A & B -----
-
-    // // Index of the first sub-matrix of A processed by the block
-    // int aBegin = n * block_dim * by;
     
-    // // Index of the last sub-matrix of A processed by the block
-    // int aEnd = aBegin + n - 1;
-    
-    // // Step size used to iterate through the sub-matrices of A
-    // int aStep = block_dim;
-    
-    // // Index of the first sub-matrix of B processed by the block
-    // int bBegin = block_dim * bx;
-    
-    // // Step size used to iterate through the sub-matrices of B
-    // int bStep = block_dim * n;
-    
-    // The element of the block sub-matrix that is computed
-    // by the thread
-    T Csub = 0;
+    int  Csub = 0;
 
     // ------------------------------------------------------
 
     // Shared memory for the sub-matrices (tiles) of A and B
-    extern __shared__ T shared_tile[];
-    T* As = shared_tile;
-    T* Bs = &shared_tile[block_dim*block_dim];
+    extern __shared__ int shared_tile_1[];
+    int* As = shared_tile_1;
+    int* Bs = &shared_tile_1[block_dim*block_dim];
 
     int x = (n+block_dim-1)/block_dim;
 
@@ -70,24 +52,121 @@ void matmul_1(const int *A, const int *B, int *C, unsigned int n, unsigned int b
     dim3 dimGrid((n+block_dim-1)/block_dim, (n+block_dim-1)/block_dim);
     dim3 dimBlock(block_dim, block_dim);
 
-    matmul_kernel<int><<<dimGrid, dimBlock, 2*block_dim*block_dim*sizeof(int)>>>(A, B, C, n, block_dim);
+    matmul_kernel_1<int><<<dimGrid, dimBlock, 2*block_dim*block_dim*sizeof(int)>>>(A, B, C, n, block_dim);
     cudaDeviceSynchronize();
 }
+
+
+
+__global__ void matmul_kernel_2(const float* A, const float * B, float* C, unsigned int n, unsigned int block_dim)
+{
+    // // Block index
+    // int bx = blockIdx.x; 
+    // int by = blockIdx.y; 
+    
+    // // Thread index
+    int tx = threadIdx.x; 
+    int ty = threadIdx.y;
+
+
+    
+    float  Csub = 0;
+
+    // ------------------------------------------------------
+
+    // Shared memory for the sub-matrices (tiles) of A and B
+    extern __shared__ float shared_tile_2[];
+    float* As = shared_tile_2;
+    float* Bs = &shared_tile_2[block_dim*block_dim];
+
+    int x = (n+block_dim-1)/block_dim;
+
+    for(int i=0; i<x; i++)
+    {
+        int tile_index_A = blockIdx.y + i*block_dim;
+        int tile_index_B = blockIdx.x + i*block_dim;
+
+        if((block_dim*blockIdx.y+threadIdx.y) >= n || (block_dim*blockIdx.x+threadIdx.x) >= n)
+            continue;
+
+        As[ty*block_dim * tx] = A[tile_index_A + ty];
+        Bs[ty*block_dim * tx] = B[tile_index_B + tx];
+
+	__syncthreads();
+        for (int k = 0; k < block_dim; k++)
+        {
+            Csub += As[ty*block_dim + k] * Bs[k*block_dim + tx];
+        }
+	__syncthreads();
+    }
+
+    C[(block_dim*blockIdx.y+threadIdx.y)*n + (block_dim*blockIdx.x+threadIdx.x)] = Csub;
+}
+
+
 
 void matmul_2(const float *A, const float *B, float *C, unsigned int n, unsigned int block_dim)
 {
     dim3 dimGrid((n+block_dim-1)/block_dim, (n+block_dim-1)/block_dim);
     dim3 dimBlock(block_dim, block_dim);
 
-    matmul_kernel<float><<<dimGrid, dimBlock, 2*block_dim*block_dim*sizeof(float)>>>(A, B, C, n, block_dim);
+    matmul_kernel_2<float><<<dimGrid, dimBlock, 2*block_dim*block_dim*sizeof(float)>>>(A, B, C, n, block_dim);
     cudaDeviceSynchronize();
 }
+
+
+__global__ void matmul_kernel_3(const double* A, const double * B, double* C, unsigned int n, unsigned int block_dim)
+{
+    // // Block index
+    // int bx = blockIdx.x; 
+    // int by = blockIdx.y; 
+    
+    // // Thread index
+    int tx = threadIdx.x; 
+    int ty = threadIdx.y;
+
+
+    
+    double  Csub = 0;
+
+    // ------------------------------------------------------
+
+    // Shared memory for the sub-matrices (tiles) of A and B
+    extern __shared__ double shared_tile_3[];
+    double* As = shared_tile_3;
+    double* Bs = &shared_tile_3[block_dim*block_dim];
+
+    int x = (n+block_dim-1)/block_dim;
+
+    for(int i=0; i<x; i++)
+    {
+        int tile_index_A = blockIdx.y + i*block_dim;
+        int tile_index_B = blockIdx.x + i*block_dim;
+
+        if((block_dim*blockIdx.y+threadIdx.y) >= n || (block_dim*blockIdx.x+threadIdx.x) >= n)
+            continue;
+
+        As[ty*block_dim * tx] = A[tile_index_A + ty];
+        Bs[ty*block_dim * tx] = B[tile_index_B + tx];
+
+	__syncthreads();
+        for (int k = 0; k < block_dim; k++)
+        {
+            Csub += As[ty*block_dim + k] * Bs[k*block_dim + tx];
+        }
+	__syncthreads();
+    }
+
+    C[(block_dim*blockIdx.y+threadIdx.y)*n + (block_dim*blockIdx.x+threadIdx.x)] = Csub;
+}
+
+
 
 void matmul_3(const double *A, const double *B, double *C, unsigned int n, unsigned int block_dim)
 {
     dim3 dimGrid((n+block_dim-1)/block_dim, (n+block_dim-1)/block_dim);
     dim3 dimBlock(block_dim, block_dim);
 
-    matmul_kernel<double><<<dimGrid, dimBlock, 2*block_dim*block_dim*sizeof(double)>>>(A, B, C, n, block_dim);
+    matmul_kernel_3<double><<<dimGrid, dimBlock, 2*block_dim*block_dim*sizeof(double)>>>(A, B, C, n, block_dim);
     cudaDeviceSynchronize();
 }
