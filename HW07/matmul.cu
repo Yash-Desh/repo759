@@ -33,8 +33,8 @@ __global__ void matmul_kernel_1(const int* A, const int * B, int * C, unsigned i
         if((block_dim*blockIdx.y+threadIdx.y) >= n || (block_dim*blockIdx.x+threadIdx.x) >= n)
             continue;
 
-        As[ty*block_dim * tx] = A[tile_index_A + ty];
-        Bs[ty*block_dim * tx] = B[tile_index_B + tx];
+        As[ty*block_dim + tx] = A[tile_index_A + ty];
+        Bs[ty*block_dim + tx] = B[tile_index_B + tx];
 
 	__syncthreads();
         for (int k = 0; k < block_dim; k++)
@@ -52,7 +52,7 @@ void matmul_1(const int *A, const int *B, int *C, unsigned int n, unsigned int b
     dim3 dimGrid((n+block_dim-1)/block_dim, (n+block_dim-1)/block_dim);
     dim3 dimBlock(block_dim, block_dim);
 
-    matmul_kernel_1<int><<<dimGrid, dimBlock, 2*block_dim*block_dim*sizeof(int)>>>(A, B, C, n, block_dim);
+    matmul_kernel_1<<<dimGrid, dimBlock, 2*block_dim*block_dim*sizeof(int)>>>(A, B, C, n, block_dim);
     cudaDeviceSynchronize();
 }
 
@@ -89,8 +89,8 @@ __global__ void matmul_kernel_2(const float* A, const float * B, float* C, unsig
         if((block_dim*blockIdx.y+threadIdx.y) >= n || (block_dim*blockIdx.x+threadIdx.x) >= n)
             continue;
 
-        As[ty*block_dim * tx] = A[tile_index_A + ty];
-        Bs[ty*block_dim * tx] = B[tile_index_B + tx];
+        As[ty*block_dim + tx] = A[tile_index_A + ty];
+        Bs[ty*block_dim + tx] = B[tile_index_B + tx];
 
 	__syncthreads();
         for (int k = 0; k < block_dim; k++)
@@ -110,7 +110,7 @@ void matmul_2(const float *A, const float *B, float *C, unsigned int n, unsigned
     dim3 dimGrid((n+block_dim-1)/block_dim, (n+block_dim-1)/block_dim);
     dim3 dimBlock(block_dim, block_dim);
 
-    matmul_kernel_2<float><<<dimGrid, dimBlock, 2*block_dim*block_dim*sizeof(float)>>>(A, B, C, n, block_dim);
+    matmul_kernel_2<<<dimGrid, dimBlock, 2*block_dim*block_dim*sizeof(float)>>>(A, B, C, n, block_dim);
     cudaDeviceSynchronize();
 }
 
@@ -146,8 +146,8 @@ __global__ void matmul_kernel_3(const double* A, const double * B, double* C, un
         if((block_dim*blockIdx.y+threadIdx.y) >= n || (block_dim*blockIdx.x+threadIdx.x) >= n)
             continue;
 
-        As[ty*block_dim * tx] = A[tile_index_A + ty];
-        Bs[ty*block_dim * tx] = B[tile_index_B + tx];
+        As[ty*block_dim + tx] = A[tile_index_A + ty];
+        Bs[ty*block_dim + tx] = B[tile_index_B + tx];
 
 	__syncthreads();
         for (int k = 0; k < block_dim; k++)
@@ -167,6 +167,6 @@ void matmul_3(const double *A, const double *B, double *C, unsigned int n, unsig
     dim3 dimGrid((n+block_dim-1)/block_dim, (n+block_dim-1)/block_dim);
     dim3 dimBlock(block_dim, block_dim);
 
-    matmul_kernel_3<double><<<dimGrid, dimBlock, 2*block_dim*block_dim*sizeof(double)>>>(A, B, C, n, block_dim);
+    matmul_kernel_3<<<dimGrid, dimBlock, 2*block_dim*block_dim*sizeof(double)>>>(A, B, C, n, block_dim);
     cudaDeviceSynchronize();
 }

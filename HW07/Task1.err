@@ -2,29 +2,3 @@
 The following have been reloaded with a version change:
   1) gcc/11.3.0 => gcc/.11.3.0_cuda
 
-matmul.cu(62): error: identifier "syncthreads" is undefined
-
-matmul.cu(40): error: declaration is incompatible with previous "shared_tile"
-(40): here
-          detected during instantiation of "void matmul_kernel(const T *, const T *, T *, unsigned int, unsigned int) [with T=float]" 
-(82): here
-
-matmul.cu(40): warning #20042-D: a host variable("shared_tile") redeclared with __shared__
-          detected during instantiation of "void matmul_kernel(const T *, const T *, T *, unsigned int, unsigned int) [with T=float]" 
-(82): here
-
-matmul.cu(40): warning #20042-D: a host variable("shared_tile") redeclared with __shared__
-          detected during instantiation of "void matmul_kernel(const T *, const T *, T *, unsigned int, unsigned int) [with T=double]" 
-(91): here
-
-2 errors detected in the compilation of "matmul.cu".
-/var/spool/slurmd/job630408/slurm_script:24: no such file or directory: ./task1
-/var/spool/slurmd/job630408/slurm_script:24: no such file or directory: ./task1
-/var/spool/slurmd/job630408/slurm_script:24: no such file or directory: ./task1
-/var/spool/slurmd/job630408/slurm_script:24: no such file or directory: ./task1
-/var/spool/slurmd/job630408/slurm_script:24: no such file or directory: ./task1
-/var/spool/slurmd/job630408/slurm_script:24: no such file or directory: ./task1
-/var/spool/slurmd/job630408/slurm_script:24: no such file or directory: ./task1
-/var/spool/slurmd/job630408/slurm_script:24: no such file or directory: ./task1
-/var/spool/slurmd/job630408/slurm_script:24: no such file or directory: ./task1
-/var/spool/slurmd/job630408/slurm_script:24: no such file or directory: ./task1
