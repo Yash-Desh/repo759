@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
     int num_blocks = (N + threads_per_block - 1) / threads_per_block;
 
     float *h_input = (float *)malloc(N * sizeof(float));
-    float *h_output = (float *)malloc(num_blocks * sizeof(float));
+    // float *h_output = (float *)malloc(num_blocks * sizeof(float));
 
     for (int i = 0; i < N; i++) {
        //  h_input[i] = dist(generator);
@@ -47,15 +47,15 @@ int main(int argc, char *argv[]) {
     cudaEventSynchronize(stop);
     cudaEventElapsedTime(&ms, start, stop);
 
-    cudaMemcpy(h_output, d_output, num_blocks * sizeof(float), cudaMemcpyDeviceToHost);
+    cudaMemcpy(h_input, d_input, num_blocks * sizeof(float), cudaMemcpyDeviceToHost);
 
     // Print results
-    std::cout << "Reduction result: " << h_output[0] << std::endl;
+    std::cout << "Reduction result: " << h_input[0] << std::endl;
     std::cout << "Elapsed time (ms): " << ms << std::endl;
 
     // Cleanup
     free(h_input);
-    free(h_output);
+    // free(h_output);
     cudaFree(d_input);
     cudaFree(d_output);
 
