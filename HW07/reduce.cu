@@ -10,22 +10,38 @@ __global__ void reduce_kernel(float *g_idata, float *g_odata, unsigned int n)
 
     extern __shared__ float sdata[];
 
-    if(blockDim.x * blockIdx.x + threadIdx.x < n)
+    // if(blockDim.x * blockIdx.x + threadIdx.x < n)
+    // {
+    //     sdata[tid] = g_idata[i] + g_idata[i+blockDim.x];
+    //     __syncthreads();
+
+    //     for (unsigned int s=blockDim.x/2; s>0; s>>=1) 
+    //     {
+    //         if (tid < s) 
+    //         {
+    //         sdata[tid] += sdata[tid + s];
+    //         }
+    //         __syncthreads();
+    //     }
+    //     g_odata[blockIdx.x] = sdata[0];
+    // }
+    if(i+blockDim.x < n)
+   	 sdata[threadIdx.x] = g_idata[i] + g_idata[i+blockDim.x];
+    else if(i < n)
+	 sdata[threadIdx.x] = g_idata[i];
+    else
+	 sdata[threadIdx.x] = 0;
+    __syncthreads();
+    for(unsigned int s = blockDim.x/2; s > 0; s>>=1)
     {
-        sdata[tid] = g_idata[i] + g_idata[i+blockDim.x];
-        __syncthreads();
-
-        for (unsigned int s=blockDim.x/2; s>0; s>>=1) 
+	
+        if(threadIdx.x < s)
         {
-            if (tid < s) 
-            {
-            sdata[tid] += sdata[tid + s];
-            }
-            __syncthreads();
+            sdata[threadIdx.x] += sdata[threadIdx.x + s];
         }
-        g_odata[blockIdx.x] = sdata[0];
+        __syncthreads();
     }
-
+    if(threadIdx.x == 0) g_odata[blockIdx.x] = sdata[0];
 
     
 }
