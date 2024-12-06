@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
 
     for (int i = 0; i < N; i++) {
        //  h_input[i] = dist(generator);
-	    h_input[i] = 1;
+	    h_input[i] = dist(generator);
     }
 
     float *d_input;
