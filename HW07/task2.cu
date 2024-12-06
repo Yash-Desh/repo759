@@ -2,59 +2,63 @@
 #include "reduce.cuh"
 #include <iostream>
 #include <cuda_runtime.h>
-#include <random>           // To generate random numbers
+#include <random> // To generate random numbers
 
-using namespace std;
+// using namespace std;
 
-int main(int argc, char *argv[])
-{
-    // command line arguments
-    unsigned int N = std::stoi(argv[1]);                // arrray dimension
-    unsigned int threads_per_block = std::stoi(argv[2]);        // block dimension
-    
-    // declarations for calculating time
-    cudaEvent_t start;
-    cudaEvent_t stop;
+int main(int argc, char *argv[]) {
+    int N = std::stoi(argv[1]); // Array dimension
+    unsigned int threads_per_block = std::stoi(argv[2]); // Block dimension
+
+    // Time calculation variables
+    cudaEvent_t start, stop;
     cudaEventCreate(&start);
     cudaEventCreate(&stop);
-    float ms=0;  
+    float ms = 0;
 
-    // random number generation
+    // Random number generation
     std::random_device entropy_source;
     std::mt19937_64 generator(entropy_source());
     std::uniform_real_distribution<float> dist(-1.0, 1.0);
 
-    int num_blocks = (N+threads_per_block-1)/threads_per_block;
+    int num_blocks = (N + threads_per_block - 1) / threads_per_block;
 
-    float *h_input = (int *)malloc(N*sizeof(float));
-    float *h_output = (int *)malloc(num_blocks*sizeof(float));
+    float *h_input = (float *)malloc(N * sizeof(float));
+    float *h_output = (float *)malloc(num_blocks * sizeof(float));
 
-    for(int i=0; i<N; i++)
-    {
-        h_input[i] = dist(generator);
+    for (int i = 0; i < N; i++) {
+       //  h_input[i] = dist(generator);
+	    h_input[i] = 1;
     }
 
-    float *d_input; 
-    float *d_output
-    cudaMalloc((void **)&d_input, N *sizeof(float));
-    cudaMalloc((void **)&d_output, num_blocks *sizeof(float));
+    float *d_input;
+    float *d_output;
+    cudaMalloc((void **)&d_input, N * sizeof(float));
+    cudaMalloc((void **)&d_output, num_blocks * sizeof(float));
 
     cudaMemcpy(d_input, h_input, N * sizeof(float), cudaMemcpyHostToDevice);
 
     // #############################################
     cudaEventRecord(start);
-    reduce(d_input, float **output, N, threads_per_block);
+    reduce(&d_input, &d_output, N, threads_per_block);
     cudaEventRecord(stop);
     // #############################################
-    
+
     cudaEventSynchronize(stop);
     cudaEventElapsedTime(&ms, start, stop);
 
-    cudaMemcpy(h_input, d_input, N * sizeof(float), cudaMemcpyDeviceToHost);
+    cudaMemcpy(h_output, d_output, num_blocks * sizeof(float), cudaMemcpyDeviceToHost);
 
-    cout<<"hello world"<<endl;
-    std::cout << h_input[0] << std::endl;
-    std::cout << ms << std::endl;
+    // Print results
+    std::cout << "Reduction result: " << h_output[0] << std::endl;
+    std::cout << "Elapsed time (ms): " << ms << std::endl;
+
+    // Cleanup
+    free(h_input);
+    free(h_output);
+    cudaFree(d_input);
+    cudaFree(d_output);
 
     return 0;
 }
+

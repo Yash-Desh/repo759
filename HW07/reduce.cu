@@ -10,7 +10,7 @@ __global__ void reduce_kernel(float *g_idata, float *g_odata, unsigned int n)
 
     extern __shared__ float sdata[];
 
-    if(blockDim.x * blockIdx.x + threadIdx.x < N)
+    if(blockDim.x * blockIdx.x + threadIdx.x < n)
     {
         sdata[tid] = g_idata[i] + g_idata[i+blockDim.x];
         __syncthreads();
@@ -37,7 +37,7 @@ __host__ void reduce(float **input, float **output, unsigned int N, unsigned int
 
     while(N!=1)
     {
-        num_blocks = (N+threads_per_block-1)/threads_per_block;
+        int num_blocks = (N+threads_per_block-1)/threads_per_block;
         reduce_kernel<<<num_blocks, threads_per_block, threads_per_block*sizeof(float)>>>(*input, *output, N);
         *input = *output;
         N = (N+threads_per_block-1)/threads_per_block;
