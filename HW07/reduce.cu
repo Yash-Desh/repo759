@@ -56,7 +56,7 @@ __host__ void reduce(float **input, float **output, unsigned int N, unsigned int
         int num_blocks = (N+threads_per_block-1)/threads_per_block;
         reduce_kernel<<<num_blocks, threads_per_block, threads_per_block*sizeof(float)>>>(*input, *output, N);
         cudaDeviceSynchronize();
-        // *input = *output;
+        *input = *output;
         N = (N+threads_per_block-1)/threads_per_block;
     }
     *input = *output;
