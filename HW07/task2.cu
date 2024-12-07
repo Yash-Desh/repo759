@@ -27,8 +27,8 @@ int main(int argc, char *argv[]) {
     // float *h_output = (float *)malloc(num_blocks * sizeof(float));
 
     for (int i = 0; i < N; i++) {
-       //  h_input[i] = dist(generator);
-	    h_input[i] = dist(generator);
+        h_input[i] = dist(generator);
+	  //  h_input[i] = 1;
     }
 
     float *d_input;

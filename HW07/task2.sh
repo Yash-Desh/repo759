@@ -20,5 +20,5 @@ module load nvidia/cuda/11.8.0
 nvcc task2.cu reduce.cu -Xcompiler -O3 -Xcompiler -Wall -Xptxas -O3 -std=c++17 -o task2
 for ((i=10; i<31; i++)); do
 	N=$((2 ** i))
-	./task2 $N 1024
+	./task2 $N 512
 done

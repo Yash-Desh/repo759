@@ -147,7 +147,7 @@ int main(int argc, char *argv[])
 
     cudaMemcpy(h_C_3, d_C_3, n * n * sizeof(float), cudaMemcpyDeviceToHost);
 
-    cout<<"hello world"<<endl;
+    // cout<<"hello world"<<endl;
     std::cout << h_C_3[0] << std::endl;
     std::cout << h_C_3[n*n - 1] << std::endl;
     std::cout << ms_3 << std::endl;
