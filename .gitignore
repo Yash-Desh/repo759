@@ -1,0 +1,13 @@
+# Editor / IDE settings
+.vscode/
+
+# Compiled task executables (extensionless binaries like task1, task2, ...)
+# Keep the source/scripts that share the name (task1.cpp, task1.sh, task2.cu, ...)
+task[0-9]*
+!task[0-9]*.*
+
+# Common C / C++ / CUDA build artifacts
+a.out
+*.o
+*.obj
+*.exe
